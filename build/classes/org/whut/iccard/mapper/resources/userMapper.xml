@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这块等于dao接口的实现 namespace必须和接口的类路径一样 -->
+<mapper namespace="org.whut.iccard.mapper.UserMapper">
+	<sql id="user_fields">
+		id,userName,password,workId,sex,phoneNum,email,name
+	</sql>
+	
+	<resultMap id="userResultMap" type="User">
+	    <id property="id" column="id" />
+		<result property="userName" column="userName" />
+		<result property="password" column="password" />
+		<result property="workId" column="workId" />
+		<result property="sex" column="sex" />
+		<result property="phoneNum" column="phoneNum" />
+		<result property="email" column="email" />
+		<result property="name" column="name" />
+	</resultMap>
+	
+	<!-- findById必须和接口中的方法名一样 返回一个User 就是刚才的别名 如果不弄别名要连类路径一起写 麻烦 -->
+	<select id="findById" parameterType="HashMap" resultType="User">
+		select
+		<include refid="user_fields" />
+		from user where id=#{id}
+	</select>
+	<select id="findByName" parameterType="HashMap" resultType="User">
+		select
+		<include refid="user_fields" />
+		from user where userName=#{userName}
+	</select>
+	<insert id="add" parameterType="User">
+		INSERT INTO
+		user(
+		<include refid="user_fields" />
+		)
+		VALUES (#{id}, #{userName},#{password},#{workId},#{sex},#{phoneNum},#{email},#{name});
+	</insert>
+	<select id="getAllUser" parameterType="map" resultMap="userResultMap">
+		select
+		<include refid="user_fields" />
+		from user;
+	</select>
+</mapper>  

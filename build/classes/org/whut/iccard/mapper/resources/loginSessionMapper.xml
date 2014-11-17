@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这块等于dao接口的实现 usernamespace必须和接口的类路径一样 -->
+<mapper namespace="org.whut.iccard.mapper.LoginSessionMapper">
+	<sql id="loginSession_fields">
+		id,JSESSIONID,userName,ticket
+	</sql>
+	<!-- findById必须和接口中的方法名一样  -->
+	<select id="findByTicket" parameterType="HashMap" resultType="LoginSession">
+		select
+		* from loginsession where ticket=#{ticket}
+	</select>
+	<select id="findBySessionId" parameterType="HashMap" resultType="LoginSession">
+		select
+		<include refid="loginSession_fields" />
+		from loginsession where JSESSIONID=#{JSESSIONID}
+	</select>
+	<insert id="add" parameterType="LoginSession">
+		INSERT INTO
+		loginsession(
+		<include refid="loginSession_fields" />
+		)
+		VALUES (#{id},#{JSESSIONID}, #{userName},#{ticket});
+	</insert>
+	<update id="update" parameterType="LoginSession">
+		UPDATE loginsession
+		<set>
+			<if test="ticket!=null">ticket=#{ticket}</if>
+		</set>
+		where JSESSIONID=#{JSESSIONID};
+	</update>
+</mapper>  

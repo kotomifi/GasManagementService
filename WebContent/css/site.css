@@ -1,0 +1,9 @@
+.login_container {
+	width: 500px;
+	margin: auto;
+	margin-top: 200px;
+}
+
+body {
+	background-image: url(../img/bg4.jpg);
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这块等于dao接口的实现 namespace必须和接口的类路径一样 -->
+<mapper namespace="org.whut.iccard.mapper.RepairMapper">
+	<sql id="repair_fields">
+		id,type,description,userName,oldBarCode,oldIndication,newBarCode,newIndication,
+		postDate,completeDate,address,isUpdate,uploadFlag,isComplete
+	</sql>
+	
+	<resultMap id="repairResultMap" type="Repair">
+	    <id property="id" column="id" />
+		<result property="type" column="type" />
+		<result property="description" column="description" />
+		<result property="userName" column="userName" />
+		<result property="oldBarCode" column="oldBarCode" />
+		<result property="oldIndication" column="oldIndication" />
+		<result property="newBarCode" column="newBarCode" />
+		<result property="newIndication" column="newIndication" />
+		<result property="postDate" column="postDate" />
+		<result property="completeDate" column="completeDate" />
+		<result property="address" column="address" />
+		<result property="isUpdate" column="isUpdate" />
+		<result property="uploadFlag" column="uploadFlag" />
+		<result property="isComplete" column="isComplete" />
+	</resultMap>
+	
+	<!-- findById必须和接口中的方法名一样 返回一个User 就是刚才的别名 如果不弄别名要连类路径一起写 麻烦 -->
+	
+	<insert id="add" parameterType="Repair">
+		INSERT INTO
+		repair(
+		<include refid="repair_fields" />
+		)
+		VALUES (#{id}, #{type}, #{description}, #{userName}, #{oldBarCode}, #{oldIndication},
+			#{newBarCode}, #{newIndication}, #{postDate}, #{completeDate}, #{address}, 
+			#{isUpdate}, #{uploadFlag}, #{isComplete});
+	</insert>
+</mapper>  
