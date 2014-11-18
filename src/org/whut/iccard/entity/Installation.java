@@ -20,15 +20,15 @@ public class Installation {
 	@XmlJavaTypeAdapter(DateAdapter.class)
 	private Date completeDate;
 	private int isComplete;
-	private String uploadFlag;
+	private int uploadFlag;
 	private String barCode;
-	private String indication;
+	private int indication;
 	private int customerId;
 	
-	public String getUploadFlag() {
+	public int getUploadFlag() {
 		return uploadFlag;
 	}
-	public void setUploadFlag(String uploadFlag) {
+	public void setUploadFlag(int uploadFlag) {
 		this.uploadFlag = uploadFlag;
 	}
 	public String getBarCode() {
@@ -37,10 +37,10 @@ public class Installation {
 	public void setBarCode(String barCode) {
 		this.barCode = barCode;
 	}
-	public String getIndication() {
+	public int getIndication() {
 		return indication;
 	}
-	public void setIndication(String indication) {
+	public void setIndication(int indication) {
 		this.indication = indication;
 	}
 	public int getCustomerId() {

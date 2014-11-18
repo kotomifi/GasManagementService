@@ -2,6 +2,15 @@ package org.whut.iccard.entity;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.whut.iccard.adapter.DateAdapter;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement 
 public class Repair {
 	private long id;
 	private String type;
@@ -10,8 +19,10 @@ public class Repair {
 	private String oldBarCode;
 	private int oldIndication;
 	private String newBarCode;
-	private String newIndication;
+	private int newIndication;
+	@XmlJavaTypeAdapter(DateAdapter.class)
 	private Date postDate;
+	@XmlJavaTypeAdapter(DateAdapter.class)
 	private Date completeDate;
 	private String address;
 	private int isUpdate;
@@ -60,10 +71,10 @@ public class Repair {
 	public void setNewBarCode(String newBarCode) {
 		this.newBarCode = newBarCode;
 	}
-	public String getNewIndication() {
+	public int getNewIndication() {
 		return newIndication;
 	}
-	public void setNewIndication(String newIndication) {
+	public void setNewIndication(int newIndication) {
 		this.newIndication = newIndication;
 	}
 	public Date getPostDate() {

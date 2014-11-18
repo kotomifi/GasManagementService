@@ -20,15 +20,13 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.whut.iccard.entity.Installation;
 import org.whut.iccard.entity.LoginSession;
-import org.whut.iccard.mapper.InstallationMapper;
+import org.whut.iccard.entity.Repair;
 import org.whut.iccard.mapper.LoginSessionMapper;
+import org.whut.iccard.mapper.RepairMapper;
 
-
-
-@Path("installationService")
-public class InstallationService {
+@Path("repairService")
+public class RepairService {
 
 	private static SqlSessionFactory getSessionFactory() {  
         SqlSessionFactory sessionFactory = null;  
@@ -44,9 +42,9 @@ public class InstallationService {
     }  
 	
 	@GET
-	@Path("/getInstallationTasks")
+	@Path("/getRepairTasks")
 	@Produces(MediaType.APPLICATION_XML)
-	public List<Installation> getInstallationTask(
+	public List<Repair> getRepariTask(
 			@Context HttpServletRequest request, 
 			@Context HttpServletResponse response) {
 		
@@ -58,26 +56,24 @@ public class InstallationService {
 		LoginSession loginSession = loginSessionMapper.findBySessionId(JSESSIONID);
 		String userName = loginSession.getUserName();
 		if (loginSession != null) {
-			InstallationMapper installationMapper = sqlSession.getMapper(InstallationMapper.class);
-	        SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
-	        String t = sdf.format(new Date());
-	        List<Installation> tasks = installationMapper.findByUser(userName, t, false); 
-	        Installation is = tasks.get(0);
-	        System.out.println("-----" + is.getPostDate());
+			RepairMapper repairMapper = sqlSession.getMapper(RepairMapper.class);
+	        List<Repair> tasks = repairMapper.findByUser(userName, false); 
 	        return tasks;
 		} 
 		return null;
 	}
 	
 	@POST
-	@Path("/postInstallationTasks")
+	@Path("/postRepairTasks")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes({"application/json","application/xml","application/x-www-form-urlencoded"})
-	public String postInstallationTask(
+	public String postRepairTask(
 			@FormParam("id") String id, 
 			@FormParam("isComplete") int isComplete, 
-			@FormParam("barCode") String barCode, 
-			@FormParam("indication") String indication, 
+			@FormParam("oldBarCode") String oldBarCode, 
+			@FormParam("oldIndication") String oldIndication, 
+			@FormParam("newBarCode") String newBarCode, 
+			@FormParam("newIndication") String newIndication, 
 			@Context HttpServletRequest request, 
 			@Context HttpServletResponse response) {
 		
@@ -90,19 +86,21 @@ public class InstallationService {
 		String userName = loginSession.getUserName();
 		if (loginSession == null)
 			return "NOT LOGIN";
-
+		
 		// 判断数据是否合格
 		if (isComplete == 1) {
-			Installation installation = new Installation();
-			installation.setId(Long.parseLong(id));
-			installation.setIsComplete(1);
-			installation.setBarCode(barCode);
-			installation.setIndication(Integer.parseInt(indication));
-			installation.setCompleteDate(new Date());
-			installation.setUploadFlag(1);
+			Repair repair = new Repair();
+			repair.setId(Long.parseLong(id));
+			repair.setIsComplete(isComplete);
+			repair.setOldBarCode(oldBarCode);
+			repair.setOldIndication(Integer.parseInt(oldIndication));
+			repair.setNewBarCode(newBarCode);
+			repair.setNewIndication(Integer.parseInt(newIndication));
+			repair.setCompleteDate(new Date());
+			repair.setUploadFlag(1);
 			
-			InstallationMapper installationMapper = sqlSession.getMapper(InstallationMapper.class);
-			installationMapper.update(installation);
+			RepairMapper repairMapper = sqlSession.getMapper(RepairMapper.class);
+			repairMapper.update(repair);
 		}
 		return "SUCCESS";
 	}
