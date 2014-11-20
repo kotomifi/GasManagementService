@@ -9,21 +9,24 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.whut.iccard.adapter.DateAdapter;
 
+/**
+ * @XmlJavaTypeAdapter(DateAdapter.class)
+ * @author baisu
+ *
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement 
 public class Installation {
 	private long id;
 	private String address;
 	private String userName;
-	@XmlJavaTypeAdapter(DateAdapter.class)
-	private Date postDate;
-	@XmlJavaTypeAdapter(DateAdapter.class)
-	private Date completeDate;
+	private String postDate;
+	
+	private String completeDate;
 	private int isComplete;
 	private int uploadFlag;
 	private String barCode;
 	private int indication;
-	private int customerId;
 	
 	public int getUploadFlag() {
 		return uploadFlag;
@@ -42,12 +45,6 @@ public class Installation {
 	}
 	public void setIndication(int indication) {
 		this.indication = indication;
-	}
-	public int getCustomerId() {
-		return customerId;
-	}
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
 	}
 	public void setIsComplete(int isComplete) {
 		this.isComplete = isComplete;
@@ -76,16 +73,24 @@ public class Installation {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Date getPostDate() {
+	public String getPostDate() {
 		return postDate;
 	}
-	public void setPostDate(Date postDate) {
+	public void setPostDate(String postDate) {
 		this.postDate = postDate;
 	}
-	public Date getCompleteDate() {
+	public String getCompleteDate() {
 		return completeDate;
 	}
-	public void setCompleteDate(Date completeDate) {
+	public void setCompleteDate(String completeDate) {
 		this.completeDate = completeDate;
+	}
+	@Override
+	public String toString() {
+		return "Installation [id=" + id + ", address=" + address
+				+ ", userName=" + userName + ", postDate=" + postDate
+				+ ", completeDate=" + completeDate + ", isComplete="
+				+ isComplete + ", uploadFlag=" + uploadFlag + ", barCode="
+				+ barCode + ", indication=" + indication + "]";
 	}
 }

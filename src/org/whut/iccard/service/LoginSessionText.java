@@ -59,7 +59,10 @@ public class LoginSessionText {
         Installation i2 = new Installation();
         i2.setAddress("wuhan");
         i2.setUserName("root");
-        i2.setPostDate(new Date());
+        Date d2 = new Date();
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String time = sd.format(d2);
+        i2.setPostDate(time);
         installationMapper.add(i2);
         sqlSession.commit();
     }  

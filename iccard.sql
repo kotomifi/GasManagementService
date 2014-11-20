@@ -21,13 +21,12 @@ create table installation (
 	id  			int(11) 		primary key NOT NULL auto_increment,
 	address			varchar(40)		NOT NULL,
 	userName 		varchar(20)		NOT NULL,
-	postDate		datetime		NOT NULL,
-	completeDate	datetime,
+	postDate		varchar(20)		NOT NULL DEFAULT '',
+	completeDate	varchar(20),
 	isComplete		bit(1)			NOT NULL DEFAULT 0,
 	uploadFlag		bit(1)			NOT NULL DEFAULT 0,
 	barCode			varchar(20)		NOT NULL DEFAULT '',
-	indication		int(4)		 	NOT NULL DEFAULT 0,
-	customerId		int(11)			NOT NULL DEFAULT 0
+	indication		int(4)		 	NOT NULL DEFAULT 0
 );
 
 
@@ -49,10 +48,10 @@ create table repair (
 	oldIndication 	int(4)			NOT	NULL DEFAULT 0,
 	newBarCode		varchar(20)		NOT NULL DEFAULT '',
 	newIndication	int(4)			NOT NULL DEFAULT 0,
-	postDate		datetime		NOT NULL,
-	completeDate	datetime,
+	postDate		varchar(20)		NOT NULL DEFAULT '',
+	completeDate	varchar(20),
 	address			varchar(255)	NOT NULL DEFAULT '',
-	isUpdate		bit(1)			NOT NULL DEFAULT 0,
+	isUpdate		int(2)			NOT NULL DEFAULT -1,
 	uploadFlag		bit(1)			NOT NULL DEFAULT 0,
 	isComplete		bit(1) 			NOT NULL DEFAULT 0
 

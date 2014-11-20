@@ -39,6 +39,12 @@
 		
 	</select>
 	
+	<select id="findById" resultType="Repair">
+		select
+		<include refid="repair_fields"/>
+		from repair where id=#{id}
+	</select>
+	
 	<insert id="add" parameterType="Repair">
 		INSERT INTO
 		repair(
@@ -48,4 +54,23 @@
 			#{newBarCode}, #{newIndication}, #{postDate}, #{completeDate}, #{address}, 
 			#{isUpdate}, #{uploadFlag}, #{isComplete});
 	</insert>
+	
+	<update id="update" parameterType="Repair">
+		UPDATE repair
+		<set>
+			<if test="type!=null">type=#{type},</if>
+			<if test="description!=null">description=#{description},</if>
+			<if test="oldBarCode!=null">oldBarCode=#{oldBarCode},</if>
+			<if test="oldIndication!=null">oldIndication=#{oldIndication},</if>
+			<if test="newBarCode!=null">newBarCode=#{newBarCode},</if>
+			<if test="newIndication!=null">newIndication=#{newIndication},</if>
+			<if test="postDate!=null">postDate=#{postDate},</if>
+			<if test="completeDate!=null">completeDate=#{completeDate},</if>
+			<if test="address!=null">address=#{address},</if>
+			<if test="isUpdate!=null">isUpdate=#{isUpdate},</if>
+			<if test="uploadFlag!=null">uploadFlag=#{uploadFlag},</if>
+			<if test="isComplete!=null">isComplete=#{isComplete}</if>
+		</set>
+		where id=#{id};
+	</update>
 </mapper>  

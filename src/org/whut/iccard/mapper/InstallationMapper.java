@@ -12,4 +12,5 @@ public interface InstallationMapper {
 			@Param("isComplete")boolean isComplete);
 	public void add(Installation installation);
 	public void update(Installation installation);
+	public Installation findById(long id);
 }

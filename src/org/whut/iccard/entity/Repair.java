@@ -20,10 +20,8 @@ public class Repair {
 	private int oldIndication;
 	private String newBarCode;
 	private int newIndication;
-	@XmlJavaTypeAdapter(DateAdapter.class)
-	private Date postDate;
-	@XmlJavaTypeAdapter(DateAdapter.class)
-	private Date completeDate;
+	private String postDate;
+	private String completeDate;
 	private String address;
 	private int isUpdate;
 	private int uploadFlag;
@@ -77,16 +75,16 @@ public class Repair {
 	public void setNewIndication(int newIndication) {
 		this.newIndication = newIndication;
 	}
-	public Date getPostDate() {
+	public String getPostDate() {
 		return postDate;
 	}
-	public void setPostDate(Date postDate) {
+	public void setPostDate(String postDate) {
 		this.postDate = postDate;
 	}
-	public Date getCompleteDate() {
+	public String getCompleteDate() {
 		return completeDate;
 	}
-	public void setCompleteDate(Date completeDate) {
+	public void setCompleteDate(String completeDate) {
 		this.completeDate = completeDate;
 	}
 	public String getAddress() {

@@ -5,7 +5,7 @@
 <!--这块等于dao接口的实现 namespace必须和接口的类路径一样 -->
 <mapper namespace="org.whut.iccard.mapper.InstallationMapper">
 	<sql id="installation_fields">
-		id,address,userName,postDate,completeDate,isComplete,uploadFlag,barCode,indication,customerId
+		id,address,userName,postDate,completeDate,isComplete,uploadFlag,barCode,indication
 	</sql>
 	
 	<resultMap id="insatllationResultMap" type="Installation">
@@ -18,7 +18,6 @@
 		<result property="uploadFlag" column="uploadFlag" />
 		<result property="barCode" column="barCode" />
 		<result property="indication" column="indication" />
-		<result property="customerId" column="customerId" />
 	</resultMap>
 	
 	<!-- findById必须和接口中的方法名一样 返回一个User 就是刚才的别名 如果不弄别名要连类路径一起写 麻烦 -->
@@ -34,21 +33,27 @@
 		
 	</select>
 	
+	<select id="findById" parameterType="map" resultType="Installation">
+		select
+		<include refid="installation_fields"/>
+		from installation where id=#{id}
+	</select>
+	
 	<insert id="add" parameterType="Installation">
 		insert into installation(
 			<include refid="installation_fields"/>
-		) VALUES (#{id}, #{address}, #{userName}, #{postDate}, #{completeDate},#{uploadFlag},#{barCode},#{indication},#{customerId});
+		) VALUES (#{id}, #{address}, #{userName}, #{postDate}, #{completeDate},#{isComplete},#{uploadFlag},#{barCode},#{indication});
 	</insert>
+	
 	<update id="update" parameterType="Installation">
 		UPDATE installation
 		<set>
-			<if test="postDate!=null">postDate=#{postDate}</if>
-			<if test="isComplete!=null">isComplete=#{isComplete}</if>
-			<if test="uploadFlag!=null">uploadFlag=#{uploadFlag}</if>
-			<if test="barCode!=null">barCode=#{barCode}</if>
-			<if test="indication!=null">indication=#{indication}</if>
-			<if test="customerId!=null">customerId=#{customerId}</if>
-			<if test="completeDate!=null">completeDate={completeDate}</if>
+			<if test="postDate!=null">postDate=#{postDate},</if>
+			<if test="isComplete!=null">isComplete=#{isComplete},</if>
+			<if test="uploadFlag!=null">uploadFlag=#{uploadFlag},</if>
+			<if test="barCode!=null">barCode=#{barCode},</if>
+			<if test="indication!=null">indication=#{indication},</if>
+			<if test="completeDate!=null">completeDate=#{completeDate}</if>
 		</set>
 		where id=#{id};
 	</update>

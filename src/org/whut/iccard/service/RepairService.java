@@ -58,6 +58,7 @@ public class RepairService {
 		if (loginSession != null) {
 			RepairMapper repairMapper = sqlSession.getMapper(RepairMapper.class);
 	        List<Repair> tasks = repairMapper.findByUser(userName, false); 
+	        
 	        return tasks;
 		} 
 		return null;
@@ -69,7 +70,9 @@ public class RepairService {
 	@Consumes({"application/json","application/xml","application/x-www-form-urlencoded"})
 	public String postRepairTask(
 			@FormParam("id") String id, 
-			@FormParam("isComplete") int isComplete, 
+			@FormParam("type") String type, 
+			@FormParam("description") String description, 
+			@FormParam("isUpdate") String isUpdate, 
 			@FormParam("oldBarCode") String oldBarCode, 
 			@FormParam("oldIndication") String oldIndication, 
 			@FormParam("newBarCode") String newBarCode, 
@@ -87,21 +90,30 @@ public class RepairService {
 		if (loginSession == null)
 			return "NOT LOGIN";
 		
-		// 判断数据是否合格
-		if (isComplete == 1) {
-			Repair repair = new Repair();
-			repair.setId(Long.parseLong(id));
-			repair.setIsComplete(isComplete);
-			repair.setOldBarCode(oldBarCode);
-			repair.setOldIndication(Integer.parseInt(oldIndication));
-			repair.setNewBarCode(newBarCode);
-			repair.setNewIndication(Integer.parseInt(newIndication));
-			repair.setCompleteDate(new Date());
-			repair.setUploadFlag(1);
-			
-			RepairMapper repairMapper = sqlSession.getMapper(RepairMapper.class);
-			repairMapper.update(repair);
+		// 更新
+		RepairMapper repairMapper = sqlSession.getMapper(RepairMapper.class);
+		Repair re = repairMapper.findById(Long.parseLong(id));
+		re.setIsComplete(1);
+		re.setUploadFlag(1);
+		Date d = new Date();
+		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String time = sd.format(d);
+		re.setCompleteDate(time);
+		if (description != null) {
+			re.setDescription(description);
 		}
+		re.setType(type);
+		if (isUpdate.equals("1")) {
+			re.setOldBarCode(oldBarCode);
+			re.setOldIndication(Integer.parseInt(oldIndication));
+			re.setNewBarCode(newBarCode);
+			re.setNewIndication(Integer.parseInt(newIndication));
+			re.setIsUpdate(Integer.parseInt(isUpdate));
+		}
+		repairMapper.update(re);
+		sqlSession.commit();
+		sqlSession.close();
+		
 		return "SUCCESS";
 	}
 }

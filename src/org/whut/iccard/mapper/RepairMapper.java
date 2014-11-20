@@ -9,4 +9,5 @@ public interface RepairMapper {
 	public List<Repair> findByUser(@Param("userName")String userName, @Param("isComplete")boolean isComplete);
 	public void add(Repair repair);
 	public void update(Repair repair);
+	public Repair findById(long id);
 }
